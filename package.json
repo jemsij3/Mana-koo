@@ -52,3 +52,21 @@
 "scripts": {
   "build": "prisma generate && next build"
 }
+scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },scripts": {
+    "postinstall": "prisma generate",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "prisma": "^5.0.0", 
+    "next": "15.0.0",
+    "react": "19.0.0",
+    ...
+  },
