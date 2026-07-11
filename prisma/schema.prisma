@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("USER") // USER, AGENT, ADMIN
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  properties    Property[]
+  favorites     Favorite[]
+  sentMessages  Message[]  @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  notifications Notification[]
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  type        String   // House, Apartment, Land, Commercial
+  price       Float
+  currency    String   @default("USD")
+  address     String
+  city        String
+  state       String
+  zipCode     String
+  country     String
+  latitude    Float?
+  longitude   Float?
+  bedrooms    Int?
+  bathrooms   Float?
+  area        Float?   // in square meters or sqft
+  features    String?  // JSON stringified or comma separated
+  images      String   // JSON stringified array of URLs
+  status      String   @default("AVAILABLE") // AVAILABLE, SOLD, RENTED
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  favorites   Favorite[]
+  messages    Message[]
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  userId     String
+  propertyId String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  senderId   String
+  receiverId String
+  propertyId String?
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String   // MESSAGE, FAVORITE, SYSTEM
+  content   String
+  userId    String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
