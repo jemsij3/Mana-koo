@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Bed, Bath, Square, MapPin, Check, Mail, Phone, Calendar } from "lucide-react";
 import { prisma } from "@/lib/prisma";
-import Button from "@/components/Button";
+import Button from "../../../components/Button";
 
 export default async function PropertyPage({ params }: { params: { id: string } }) {
   const resolvedParams = await Promise.resolve(params);
