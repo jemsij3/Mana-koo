@@ -1,1 +1,1 @@
-[...nextauth]/route.ts
+
