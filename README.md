@@ -24,3 +24,9 @@ Mana Koo is a modern, responsive property marketplace where users can buy, sell,
 - SQLite
 - TailwindCSS
 - NextAuth.js
+
+### Vercel Deployment
+When deploying to Vercel, ensure you configure the following Environment Variables in your Vercel Project Settings:
+- `NEXTAUTH_SECRET`: Generate a secure random string (e.g. using `openssl rand -base64 32`)
+- `NEXTAUTH_URL`: The production URL of your app (e.g. `https://mana-koo.vercel.app`)
+- `DATABASE_URL`: The URL to your production database
