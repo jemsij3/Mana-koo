@@ -24,3 +24,24 @@ Mana Koo is a modern, responsive property marketplace where users can buy, sell,
 - SQLite
 - TailwindCSS
 - NextAuth.js
+
+### Vercel Deployment
+When deploying to Vercel, ensure you configure the following Environment Variables in your Vercel Project Settings. You can copy and paste the values below directly into the Vercel dashboard:
+
+`NEXTAUTH_SECRET`
+Generate a secure random string in your terminal and paste it as the value:
+```bash
+openssl rand -base64 32
+```
+
+`NEXTAUTH_URL`
+```text
+https://mana-koo.vercel.app
+```
+*(Note: Replace "mana-koo" with your actual Vercel project name if it is different)*
+
+`DATABASE_URL`
+```text
+file:./dev.db
+```
+*(Note: Using SQLite on Vercel Serverless Functions is not recommended for production since the database file is reset on every deployment. Consider upgrading to a hosted PostgreSQL database (like Vercel Postgres, Supabase, Neon) and replacing this URL with the connection string they provide).*
